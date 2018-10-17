@@ -47,12 +47,9 @@ public class News {
 	public String generateMarkdown() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(
-				"---"
-				+"\nlayout: "+ this.getLayout()
-				+ "\n### " + this.getTitle()
-				+ "\ndate: " +this.date
-				+"\ncategories: "+this.categories
-				+"\n---"
+				"### " + this.getTitle()
+				+ "\n"+this.date
+				+"\n"+this.categories
 				+"\n*"+this.getAuthor()+"*"
 				+"\n"+this.getContent()
 				);
