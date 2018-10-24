@@ -1,3 +1,5 @@
+import java.util.List;
+
 
 public class News {
 
@@ -7,6 +9,10 @@ public class News {
 	private String categories;
 	private String author;
 	private String content;
+	private List<String> linkList;
+	private List<String> imageList;
+
+
 	public String getLayout() {
 		return layout;
 	}
@@ -43,13 +49,31 @@ public class News {
 	public void setContent(String content) {
 		this.content = content;
 	}
+        public List<String> getLinkList() {
+            return linkList;
+        }
+
+        public void setLinkList(List<String> linkList) {
+            this.linkList = linkList;
+        }
+
+    public List<String> getImageList() {
+        return imageList;
+    }
+
+    public void setImageList(List<String> imageList) {
+        this.imageList = imageList;
+    }
+        
 	
 	public String generateMarkdown() {
 		StringBuilder sb = new StringBuilder();
 		sb.append(
-				"### " + this.getTitle()
+				"---"
+				+"\n### " + this.getTitle()
 				+ "\n"+this.date
 				+"\n"+this.categories
+                +"\n---"
 				+"\n*"+this.getAuthor()+"*"
 				+"\n"+this.getContent()
 				);

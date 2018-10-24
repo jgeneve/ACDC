@@ -1,11 +1,14 @@
 import java.io.BufferedReader;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
 
 public class add_news {
 	
 	private static News news = new News();
+        private static String imageAnswer;
+        private static String imageInputList;
 	
 	public static void main(String[] args) {
 		if(askParameters()) {
@@ -16,7 +19,7 @@ public class add_news {
 		}
 	}
 	
-	//Fonction qui demande les différents parametres de début et return true si tout c'est bien passé, sinon false
+	//Fonction qui demande les diffï¿½rents parametres de dï¿½but et return true si tout c'est bien passï¿½, sinon false
 	public static boolean askParameters() {
 		try {
 			Scanner scanner = new Scanner(System.in);
@@ -37,6 +40,20 @@ public class add_news {
 			news.setCategories(scanner.nextLine());
 			
 			System.out.println("---");
+                        
+                        do {
+                            System.out.print("Do you want to add images ? (yes/no) : ");
+                            imageAnswer = scanner.nextLine();
+                            System.out.print(imageAnswer);
+                        } while(imageAnswer.toUpperCase() == "YES" || imageAnswer.toUpperCase() == "NO"); //TODO condition de sortie fausse
+                        
+                        if (imageAnswer.toUpperCase() == "yes") 
+                        {
+                            System.out.print("Add the image(s) separate by a space: ");
+                            imageInputList = scanner.nextLine();
+                            String[] images = imageInputList.split(" ");
+                            news.setImageList(Arrays.asList(images));
+                        }
 			
 			System.out.print("author: ");
 			news.setAuthor(scanner.nextLine());
