@@ -1,4 +1,11 @@
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.util.List;
 
 public class News {
@@ -47,14 +54,23 @@ public class News {
 		for (String link : linkList) {
 			sb.append("\n[" + link + "](" + link + ")");
 		}
-		
+
 		return sb.toString();
 	}
 	
-	public File createMarkdownFile(String markdownString) {
-		
-		File file = new 
-		return null;
+	public File createMarkdownFile(String markdownString) {	
+		String filename = this.date + "-" + this.title.replaceAll(" ", "-") + ".markdown"; 
+		File file = new File(".." + File.separator +"web-master" + File.separator + "BLOG" + File.separator + "_posts" + File.separator + filename);
+		try {
+			file.createNewFile();
+			Writer writer = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8);
+			writer.write(markdownString);
+			writer.close();
+			return file;
+		} catch (Exception e) {
+			System.out.println("Error: file cannot be created");
+			return null;
+		}
 	}
 
 	@Override
