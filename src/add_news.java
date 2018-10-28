@@ -1,71 +1,97 @@
 import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Scanner;
 
 public class add_news {
 	
-	private static News news = new News();
-        private static String imageAnswer;
-        private static String imageInputList;
-	
-	public static void main(String[] args) {
-		if(askParameters()) {
-			//news.generateMarkdown();
-			//TODO generer le fichier markdown + ajouter commentaires
-		}else {
-			throw new Error("Something went wrong with the program, please try again");
+	public static News news;
+
+	public static void main(String[] args) throws IOException {
+		if (askParameters()) {
+			news.generateMarkdown();
+		} else {
+			System.out.println("Something went wrong whith the program, please restart the program");
 		}
 	}
-	
-	//Fonction qui demande les diff�rents parametres de d�but et return true si tout c'est bien pass�, sinon false
+
 	public static boolean askParameters() {
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in)); 
+
 		try {
-			Scanner scanner = new Scanner(System.in);
-			
 			System.out.println("---");
-			
-			System.out.print("layout: ");
-			news.setLayout(scanner.nextLine());
-			
+
+			//Demande le layout
+			String layout = "post";
+			System.out.println("layout: " + layout);
+
+			//Demande le titre
 			System.out.print("title: ");
-			news.setTitle(scanner.nextLine());
-			
+			String title = input.readLine();
+
+			//Remplie le champs date avec la date du jour
 			String date = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
 			System.out.println("date: "+ date);
-			news.setDate(date);
-			
+
+			//Demande la categorie
 			System.out.print("categories: ");
-			news.setCategories(scanner.nextLine());
-			
+			String categories = input.readLine();
+
 			System.out.println("---");
-                        
-                        do {
-                            System.out.print("Do you want to add images ? (yes/no) : ");
-                            imageAnswer = scanner.nextLine();
-                            System.out.print(imageAnswer);
-                        } while(imageAnswer.toUpperCase() == "YES" || imageAnswer.toUpperCase() == "NO"); //TODO condition de sortie fausse
-                        
-                        if (imageAnswer.toUpperCase() == "yes") 
-                        {
-                            System.out.print("Add the image(s) separate by a space: ");
-                            imageInputList = scanner.nextLine();
-                            String[] images = imageInputList.split(" ");
-                            news.setImageList(Arrays.asList(images));
-                        }
-			
+
+			//Demande si l'utilisateur veut ajouter une/des image(s)
+			int imageAnswer = 0;
+			do {
+				System.out.println("Do you want to add images ? \n1-yes \n2-no");
+				imageAnswer = Integer.parseInt(input.readLine());
+			} while (imageAnswer != 1 && imageAnswer != 2);
+			//Demande le lien vers le/les images
+			List<String> imageList = new ArrayList<>();
+			if (imageAnswer == 1) {
+				System.out.print("Add the image(s) separate by a space: ");
+				String imageInputList = input.readLine();
+				String[] images = imageInputList.split(" ");
+				imageList = Arrays.asList(images);
+			}
+
+			//Demande si l'utilisateur veut ajouter un/des lien(s)
+			int linkAnswer = 0;
+			do {
+				System.out.println("Do you want to add links ? \n1-yes \n2-no");
+				linkAnswer = Integer.parseInt(input.readLine());
+			} while (linkAnswer != 1 && linkAnswer != 2);
+			//Demande le/les lien(s)
+			List<String> linkList = new ArrayList<>();
+			if (linkAnswer == 1) {
+				System.out.print("Add the link(s) separate by a space: ");
+				String linkInputList = input.readLine();
+				String[] links = linkInputList.split(" ");
+				linkList = Arrays.asList(links);
+			}
+
+			System.out.println("---");
+
+			//Demande l'auteur
 			System.out.print("author: ");
-			news.setAuthor(scanner.nextLine());
-			
+			String author = input.readLine();
+
+			//Demande le contenu
 			System.out.println("content: \n");
-			news.setContent(scanner.nextLine());
-			
+			String content = input.readLine();
+
+			//Si l'on arrive jusqu'a la fin sans erreur : tout c'est bien passe
+			news = new News(layout, title, date, categories, author, content, linkList, imageList);
 			return true;
+			
 		} catch (Exception e) {
-			return false;
+			//Il y a eu une erreur : return false
+			return false;	
 		}
-		
 	}
 
 }
