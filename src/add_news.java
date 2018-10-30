@@ -24,16 +24,15 @@ public class add_news {
 
 	public static void main(String[] args) throws IOException {
 		if (askParameters()) {
-			String markdown = news.generateMarkdown();
-			news.createMarkdownFile(markdown);
+			String markdown = Markdown.generateMarkdown(news);
+			Markdown.createMarkdownFile(markdown, news);
+			//generateWebsite();
 		} else {
 			System.out.println("Something went wrong whith the program, please restart the program");
 		}
 	}
 
 	public static boolean askParameters() {
-		
-
 		try {
 			System.out.println("---");
 
@@ -58,10 +57,10 @@ public class add_news {
 			//Utiliser une category existante
 			String categories = null;
 			if (categoryAnswer.equals("1")) {
-				categories = chooseExistingCategory();
+				categories = Categories.chooseExistingCategory();
 				System.out.println("You chose: " + categories);
 			} else if (categoryAnswer.equals("2")) {
-				categories = createCategory();
+				categories = Categories.createCategory();
 			}
 
 			System.out.println("---");
@@ -112,61 +111,13 @@ public class add_news {
 			
 		} catch (Exception e) {
 			//Il y a eu une erreur : return false
+			System.out.println(e);
 			return false;	
 		}
 	}
 	
-	public static String chooseExistingCategory() throws IOException {
-		List<String> categoryList = getCategories();
-		if (categoryList.size() > 0) {
-			//Affiche toutes les categories du fichier
-			for(int i = 0; i < categoryList.size(); i++) {
-				System.out.println((i+1) + "-" + categoryList.get(i));
-			}
-			//L'utilisateur doit choisir sa categorie
-			int categoryNumber = -1;
-			do {
-				System.out.print("Choose your category: ");
-				categoryNumber = Integer.parseInt(input.readLine());
-			} while (categoryNumber < 1 || categoryNumber >categoryList.size());
-			return categoryList.get(categoryNumber-1);
-		} else {
-			System.out.println("No categories created yet. Please create a new one");
-			return createCategory();
-			
-		}
+	public void generateWebsite() {
+		Tools.executeCommand("cd ../web_site");
+		Tools.executeCommand("jekyll build");
 	}
-	
-	public static String createCategory() throws IOException {
-		System.out.print("Category name: ");
-		String category = input.readLine();
-		
-		//Open categoies.txt file
-		String filename = "categories.txt";
-		File file = new File(".." + File.separator +"web-master" + File.separator + "BLOG" + File.separator + "category" + File.separator + filename);
-		
-		BufferedWriter writer = new BufferedWriter(new FileWriter(file.getPath(), true));
-		writer.append(category.toLowerCase());
-		writer.newLine();
-		writer.close();
-		
-		return category;
-	}
-	
-	public static List<String> getCategories() throws IOException {
-		String filename = "categories.txt";
-		File file = new File(".." + File.separator +"web-master" + File.separator + "BLOG" + File.separator + "category" + File.separator + filename);
-		if (!file.exists()) {
-			file.createNewFile();
-		}
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		String line;
-		List<String> categoryList = new ArrayList<>();
-		while((line = reader.readLine()) != null) {
-			categoryList.add(line);
-		}
-		reader.close();
-		return categoryList;
-	}
-
 }

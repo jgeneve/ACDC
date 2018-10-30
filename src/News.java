@@ -31,46 +31,68 @@ public class News {
 		this.imageList = imageList;
 	}
 
-	public String generateMarkdown() {
-		StringBuilder sb = new StringBuilder();
-
-		sb.append("---"
-				+ "\nlayout: " + this.layout
-				+ "\ntitle: \"" + this.title + "\""
-				+ "\ndate: " + this.date
-				+ "\ncategories: " + this.categories
-				+ "\n---"
-				+ "\n\n*By " + this.author + "*"
-				+ "\n\n" + this.content
-				+ "\n"
-				);
-
-		//Add images in the markdown
-		for (String image : imageList) {
-			sb.append("\n![" + image + "](" + image + ")");
-		}
-
-		//Add links in the markdown
-		for (String link : linkList) {
-			sb.append("\n[" + link + "](" + link + ")");
-		}
-
-		return sb.toString();
+	public String getLayout() {
+		return layout;
 	}
-	
-	public File createMarkdownFile(String markdownString) {	
-		String filename = this.date + "-" + this.title.replaceAll(" ", "-") + ".markdown"; 
-		File file = new File(".." + File.separator +"web-master" + File.separator + "BLOG" + File.separator + "_posts" + File.separator + filename);
-		try {
-			file.createNewFile();
-			Writer writer = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8);
-			writer.write(markdownString);
-			writer.close();
-			return file;
-		} catch (Exception e) {
-			System.out.println("Error: file cannot be created");
-			return null;
-		}
+
+	public void setLayout(String layout) {
+		this.layout = layout;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public String getDate() {
+		return date;
+	}
+
+	public void setDate(String date) {
+		this.date = date;
+	}
+
+	public String getCategories() {
+		return categories;
+	}
+
+	public void setCategories(String categories) {
+		this.categories = categories;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
+	}
+
+	public List<String> getLinkList() {
+		return linkList;
+	}
+
+	public void setLinkList(List<String> linkList) {
+		this.linkList = linkList;
+	}
+
+	public List<String> getImageList() {
+		return imageList;
+	}
+
+	public void setImageList(List<String> imageList) {
+		this.imageList = imageList;
 	}
 
 	@Override
