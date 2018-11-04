@@ -1,6 +1,6 @@
 # ACDC-project
 
-## Site web static / dynamic
+## Static / dynamic website
 
 The goal of this project is to realise a tool that allows the user to add new entries on a dynamic website construct with Jekyll. (More information at https://jekyllrb.com)
 
