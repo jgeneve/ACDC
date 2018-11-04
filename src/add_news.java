@@ -117,7 +117,7 @@ public class add_news {
 	}
 	
 	public void generateWebsite() {
-		Tools.executeCommand("cd ../web_site");
-		Tools.executeCommand("jekyll build");
+		Tools.executeCommand("bundle exec jekyll serve ../web-master/BLOG/");
+//		Tools.executeCommand("jekyll build");
 	}
 }

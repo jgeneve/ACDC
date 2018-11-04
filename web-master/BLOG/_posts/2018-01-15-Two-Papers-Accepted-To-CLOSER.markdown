@@ -1,6 +1,6 @@
 ---
 layout: post
-title:  "Two Papers Have Been Accepted to CLOSER 2018"
+title:  "FIVE Papers Have Been Accepted to CLOSER 2018"
 date:   2018-01-15 10:24:55 +0200
 categories: publications
 ---
