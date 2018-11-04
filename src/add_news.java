@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
-public class add_news {
+public class Add_news {
 	
 	public static News news;
 	public static final String yes = "YES";
