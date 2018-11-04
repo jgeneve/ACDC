@@ -1,3 +1,4 @@
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -6,6 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Writer;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.text.SimpleDateFormat;
@@ -22,14 +25,14 @@ public class Add_news {
 	public static final String no = "NO";
 	public static BufferedReader input = new BufferedReader(new InputStreamReader(System.in)); 
 
-	public static void main(String[] args) throws IOException {
-		if (askParameters()) {
-			String markdown = Markdown.generateMarkdown(news);
-			Markdown.createMarkdownFile(markdown, news);
-			//generateWebsite();
-		} else {
-			System.out.println("Something went wrong whith the program, please restart the program");
-		}
+	public static void main(String[] args) throws IOException, URISyntaxException {
+		generateWebsite();
+		// if (askParameters()) {
+		// 	String markdown = Markdown.generateMarkdown(news);
+		// 	Markdown.createMarkdownFile(markdown, news);
+		// } else {
+		// 	System.out.println("Something went wrong whith the program, please restart the program");
+		// }
 	}
 
 	public static boolean askParameters() {
@@ -116,8 +119,12 @@ public class Add_news {
 		}
 	}
 	
-	public void generateWebsite() {
-		Tools.executeCommand("bundle exec jekyll serve ../web-master/BLOG/");
-//		Tools.executeCommand("jekyll build");
+	public static void generateWebsite() throws URISyntaxException, IOException {
+		Thread thread = new Thread();
+		thread.start();
+		Tools.executeCommand("bundle exec jekyll build web-master/BLOG/");
+		Tools.executeCommand("bundle exec jekyll serve web-master/BLOG/");
+		URI website = new URI("http://127.0.0.1:4000/blog/");
+		Desktop.getDesktop().browse(website);
 	}
 }
