@@ -26,7 +26,7 @@ Class to manage the categories
 ### Markdown
 Class to transform the user's input into a .markdown file
 - `String generateMarkdown(News news)`
-- `File createMarkdownFile(String markdownString, News news`
+- `File createMarkdownFile(String markdownString, News news)`
 
 ### News
 Class that contains the data entered by the user
