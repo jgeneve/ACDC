@@ -25,14 +25,15 @@ public class Add_news {
 	public static final String no = "NO";
 	public static BufferedReader input = new BufferedReader(new InputStreamReader(System.in)); 
 
-	public static void main(String[] args) throws IOException, URISyntaxException {
-		generateWebsite();
-		// if (askParameters()) {
-		// 	String markdown = Markdown.generateMarkdown(news);
-		// 	Markdown.createMarkdownFile(markdown, news);
-		// } else {
-		// 	System.out.println("Something went wrong whith the program, please restart the program");
-		// }
+	public static void main(String[] args) {
+		if (askParameters()) {
+			String markdown = Markdown.toMarkdown(news);
+			Markdown.createMarkdownFile(markdown, news);
+			System.out.println("---");
+			Tools.seeDemo();
+		} else {
+			System.out.println("Something went wrong whith the program, please restart the program");
+		}
 	}
 
 	public static boolean askParameters() {
@@ -60,10 +61,29 @@ public class Add_news {
 			//Utiliser une category existante
 			String categories = null;
 			if (categoryAnswer.equals("1")) {
-				categories = Categories.chooseExistingCategory();
-				System.out.println("You chose: " + categories);
+				List<String> categoryList = Categories.getCategories();
+				if (categoryList.size() > 0) { //Il y a deja des categories dans le fichier
+					//Affiche toutes les categories du fichier
+					for(int i = 0; i < categoryList.size(); i++) {
+						System.out.println((i+1) + "-" + categoryList.get(i));
+					}
+					//L'utilisateur doit choisir sa categorie
+					int categoryNumber = -1;
+					do {
+						System.out.print("Choose your category: ");
+						categoryNumber = Integer.parseInt(input.readLine());
+					} while (categoryNumber < 1 || categoryNumber >categoryList.size());
+					categories = categoryList.get(categoryNumber-1);
+				} else { //Aucune categorie dans le fichier
+					System.out.println("No categories created yet. Please create a new one");
+					System.out.print("Category name: ");
+					categories = input.readLine();
+					Categories.addCategory(categories);
+				}
 			} else if (categoryAnswer.equals("2")) {
-				categories = Categories.createCategory();
+				System.out.print("Category name: ");
+				categories = input.readLine();
+				Categories.addCategory(categories);
 			}
 
 			System.out.println("---");
@@ -119,12 +139,5 @@ public class Add_news {
 		}
 	}
 	
-	public static void generateWebsite() throws URISyntaxException, IOException {
-		Thread thread = new Thread();
-		thread.start();
-		Tools.executeCommand("bundle exec jekyll build web-master/BLOG/");
-		Tools.executeCommand("bundle exec jekyll serve web-master/BLOG/");
-		URI website = new URI("http://127.0.0.1:4000/blog/");
-		Desktop.getDesktop().browse(website);
-	}
+	
 }

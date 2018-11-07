@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.awt.Desktop;
 import java.io.File;
 
 public class Tools {
@@ -15,12 +17,26 @@ public class Tools {
 			}
 			in.close();
 		} catch (IOException e) {
+			System.out.println(e);
 			System.out.println("Error: the command " + command + "cannot be execute.");
 		} 			
 	}
 	
 	public static void pushGit() {
 		
+	}
+
+	public static void seeDemo()  {
+		try {
+			Thread thread = new Thread();
+			thread.start();
+			Tools.executeCommand("bundle exec jekyll build web-master/BLOG/");
+			Tools.executeCommand("bundle exec jekyll serve -o web-master/BLOG/");
+			// URI website = new URI("http://127.0.0.1:4000/blog/");
+			// Desktop.getDesktop().browse(website);
+		} catch(Exception e) {
+			System.out.println(e);
+		}
 	}
 	
 }

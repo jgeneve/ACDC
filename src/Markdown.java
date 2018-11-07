@@ -8,7 +8,7 @@ import java.nio.file.Files;
 
 public class Markdown {
 
-	public static String generateMarkdown(News news) {
+	public static String toMarkdown(News news) {
 		StringBuilder sb = new StringBuilder();
 
 		sb.append("---"
