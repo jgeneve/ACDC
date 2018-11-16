@@ -1,42 +1,59 @@
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URI;
-import java.awt.Desktop;
+import java.io.InputStreamReader;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.io.BufferedReader;
 import java.io.File;
 
 public class Tools {
 
-	public static void executeCommand(String command) {
-		Runtime rt = Runtime.getRuntime();
+	public static String getStringUserInput() {
+		BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
+		String userInput = null;
 		try {
-			Process pr = rt.exec(command, null, new File("web-master/BLOG"));
-			InputStream in = pr.getInputStream();
-			int c;
-			while ((c = in.read()) != -1) {
-			System.out.print((char) c);
-			}
-			in.close();
+			userInput = input.readLine();
 		} catch (IOException e) {
-			System.out.println(e);
-			System.out.println("Error: the command " + command + "cannot be execute.");
-		} 			
-	}
-	
-	public static void pushGit() {
-		
-	}
+			e.printStackTrace();
+		}
+		return userInput;
+	}	
 
-	public static void seeDemo()  {
-		try {
-			Thread thread = new Thread();
-			thread.start();
-			Tools.executeCommand("bundle exec jekyll build web-master/BLOG/");
-			Tools.executeCommand("bundle exec jekyll serve -o web-master/BLOG/");
-			// URI website = new URI("http://127.0.0.1:4000/blog/");
-			// Desktop.getDesktop().browse(website);
-		} catch(Exception e) {
-			System.out.println(e);
+	private static class StreamGobbler implements Runnable {
+		private java.io.InputStream inputStream;
+		private java.util.function.Consumer<String> consumer;
+
+		public StreamGobbler(java.io.InputStream inputStream, java.util.function.Consumer<String> consumer) {
+			this.inputStream = inputStream;
+			this.consumer = consumer;
+		}
+
+		@Override
+		public void run() {
+			new java.io.BufferedReader(new java.io.InputStreamReader(inputStream)).lines()
+			.forEach(consumer);
 		}
 	}
-	
+
+	public static void demo() throws InterruptedException {
+		final boolean isWindows = System.getProperty("os.name").toLowerCase().startsWith("windows");
+		try {
+			ProcessBuilder builder = new ProcessBuilder();
+			if (isWindows) {
+				builder.command("cmd.exe", "/c", "bundle exec jekyll serve -o");
+			} else {
+				builder.command("sh", "-c", "bundle exec jekyll serve -o");
+			}
+			builder.directory(new File(Main.git.getLocalRepo()));
+			Process process = builder.start();
+			StreamGobbler streamGobbler = new StreamGobbler(process.getInputStream(), System.out::println);
+			Executors.newSingleThreadExecutor().submit(streamGobbler);
+			TimeUnit.SECONDS.sleep(3);
+			System.out.println("Press enter to stop demo");
+			System.in.read();
+			System.out.println("Demo killed");
+			process.destroy();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+}
 }

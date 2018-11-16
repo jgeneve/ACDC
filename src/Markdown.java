@@ -1,42 +1,56 @@
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class Markdown {
 
-	public static String toMarkdown(News news) {
+	public static String toMarkdown(Post post) {
 		StringBuilder sb = new StringBuilder();
 
-		sb.append("---"
-				+ "\nlayout: " + news.getLayout()
-				+ "\ntitle: \"" + news.getTitle()+ "\""
-				+ "\ndate: " + news.getDate()
-				+ "\ncategories: " + news.getCategories()
-				+ "\n---"
-				+ "\n\n*By " + news.getAuthor() + "*"
-				+ "\n\n" + news.getContent()
-				+ "\n"
-				);
-
-		//Add images in the markdown
-		for (String image : news.getImageList()) {
-			sb.append("\n![" + image + "](" + image + ")");
-		}
-
-		//Add links in the markdown
-		for (String link : news.getLinkList()) {
-			sb.append("\n[" + link + "](" + link + ")");
-		}
+		createMarkdownStructure(sb, post);
+		addImagesToMarkdown(sb, post);
+		addLinksToMarkdown(post, sb);
+		
 		return sb.toString();
 	}
+
+	private static void addLinksToMarkdown(Post post, StringBuilder sb) {
+		if (!post.getLinkList().isEmpty()) {
+			for (String link : post.getLinkList()) {
+				if (link.length() > 0) {
+					sb.append("\n[" + link + "](" + link + ")");
+				}
+			}		
+		}
+	}
+
+	private static void addImagesToMarkdown(StringBuilder sb, Post post) {
+		if (!post.getImageList().isEmpty()) {
+			for (String image : post.getImageList()) {
+				if (image.length() > 0) {
+					sb.append("\n![" + image + "](" + image + ")");
+				}
+			}			
+		}
+	}
+
+	private static void createMarkdownStructure(StringBuilder sb, Post post) {
+		sb.append("---"
+				+ "\nlayout: " + post.getLayout()
+				+ "\ntitle: \"" + post.getTitle()+ "\""
+				+ "\ndate: " + post.getDate()
+				+ "\ncategories: " + post.getCategory()
+				+ "\n---"
+				+ "\n\n*By " + post.getAuthor() + "*"
+				+ "\n\n" + post.getContent()
+				+ "\n"
+				);
+	}
 	
-	public static File createMarkdownFile(String markdownString, News news) {	
-		String filename = news.getDate()+ "-" + news.getTitle().replaceAll(" ", "-") + ".markdown"; 
-		File file = new File("web-master" + File.separator + "BLOG" + File.separator + "_posts" + File.separator + filename);
+	public static File createMarkdownFile(String markdownString, Post post) {	
+		String filename = post.getDate()+ "-" + post.getTitle().replaceAll(" ", "-") + ".markdown"; 
+		File file = new File(Main.git.getLocalRepo() + File.separator + "_posts" + File.separator + filename);
 		try {
 			file.createNewFile();
 			Writer writer = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8);
@@ -44,7 +58,7 @@ public class Markdown {
 			writer.close();
 			return file;
 		} catch (Exception e) {
-			System.out.println("Error: file cannot be created");
+			e.printStackTrace();
 			return null;
 		}
 	}
