@@ -2,8 +2,19 @@
 
 ## Static / dynamic website
 
-The goal of this project is to realise a tool that allows the user to add new entries on a dynamic website construct with Jekyll. (More information at https://jekyllrb.com)
+Ce projet a été réalisé dans le cadre de la formation d'ingénieur spécialité ingénierie logicielle lors de la première année.
 
+***
+## A propos du projet
+### Présentation
+Le but du projet est de pouvoir facilement ajouter de nouveaux articles sur un site web utilisant jekyll (plus d'informations sur https://jekyllrb.com).
+
+J'ai choisi d'implémenter cette solution en mettant en place les classes suivantes :
+![Diagramme_de_classe](./ClassDiagram.png)
+Voir plus [ici](./doc/index.html).
+***
+## Mise en place
+Afin que tout fonctionne correctement il faudra lier votre dépôt github correspondant à votre pc à l'aide d'une clé ssh. Pour se faire, suivre les étapes énnoncées dans la partie Set up 'git push' with an ssh key.
 ***
 ## Run the program
 1. Clone the project with github

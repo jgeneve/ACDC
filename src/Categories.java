@@ -11,11 +11,21 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Class Categories that contains the methods relatives to the categories
+ * @author Jordan GENEVE
+ * @version 1.0
+ * @since 1.0
+ */
 public class Categories {
 
 	public static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-	public static File file = new File(Main.git.getLocalRepo() + File.separator + "category" + File.separator + "categories.txt");
+	public static File file = new File(Main.localRepo + File.separator + "category" + File.separator + "categories.txt");
 
+	/**
+	 * Method that add a category to the category.txt file
+	 * @param category : String - Name of the category
+	 */
 	public static void addCategory(String category) {
 		try {	
 			List<String> categoriesList = getCategories();
@@ -30,6 +40,10 @@ public class Categories {
 		}
 	}
 
+	/**
+	 * Method that get the categories write in the category.txt file
+	 * @return List&lt;String&gt; - List of the categories
+	 */
 	public static List<String> getCategories() {
 		try {
 			if (!file.exists()) {
@@ -49,6 +63,10 @@ public class Categories {
 		}
 	}
 
+	/**
+	 * Method that remove an existing category to the category.txt file
+	 * @param category : String - Name of the category
+	 */
 	public static void removeCategory(String category) {
 		try {
 			List<String> out = Files.lines(file.toPath())

@@ -3,8 +3,19 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
+/**
+ * Class Markdown that contains the methods relatives to the markdown
+ * @author Jordan GENEVE
+ * @version 1.0
+ * @since 1.0
+ */
 public class Markdown {
 
+	/**
+	 * Method that transform the input post data into a markdown string
+	 * @param post : Post - post data
+	 * @return markdownString : String - mardown string
+	 */
 	public static String toMarkdown(Post post) {
 		StringBuilder sb = new StringBuilder();
 
@@ -15,6 +26,11 @@ public class Markdown {
 		return sb.toString();
 	}
 
+	/**
+	 * Method that add the links to the markdown string
+	 * @param post : Post - post data
+	 * @param sb : StringBuilder - current string builder that contains the markdown string
+	 */
 	private static void addLinksToMarkdown(Post post, StringBuilder sb) {
 		if (!post.getLinkList().isEmpty()) {
 			for (String link : post.getLinkList()) {
@@ -25,6 +41,11 @@ public class Markdown {
 		}
 	}
 
+	/**
+	 * Method that add the images to the markdown string
+	 * @param post : Post - post data
+	 * @param sb : StringBuilder - current string builder that contains the markdown string
+	 */
 	private static void addImagesToMarkdown(StringBuilder sb, Post post) {
 		if (!post.getImageList().isEmpty()) {
 			for (String image : post.getImageList()) {
@@ -35,6 +56,11 @@ public class Markdown {
 		}
 	}
 
+	/**
+	 * Method that create the main strucutre of the markdown string
+	 * @param post : Post - post data
+	 * @param sb : StringBuilder - current string builder that contains the markdown string
+	 */
 	private static void createMarkdownStructure(StringBuilder sb, Post post) {
 		sb.append("---"
 				+ "\nlayout: " + post.getLayout()
@@ -48,9 +74,15 @@ public class Markdown {
 				);
 	}
 	
+	/**
+	 * Method that creates the markdown file
+	 * @param markdownString : String - string that contains the markdown
+	 * @param post : Post - post data
+	 * @return file : File - file that contains the markdown
+	 */
 	public static File createMarkdownFile(String markdownString, Post post) {	
 		String filename = post.getDate()+ "-" + post.getTitle().replaceAll(" ", "-") + ".markdown"; 
-		File file = new File(Main.git.getLocalRepo() + File.separator + "_posts" + File.separator + filename);
+		File file = new File(Main.localRepo + File.separator + "_posts" + File.separator + filename);
 		try {
 			file.createNewFile();
 			Writer writer = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8);
