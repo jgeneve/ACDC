@@ -11,7 +11,6 @@ Le but du projet est de pouvoir facilement ajouter de nouveaux articles sur un s
 
 J'ai choisi d'implémenter cette solution en mettant en place les classes suivantes :
 ![Diagramme_de_classe](./ClassDiagram.png)
-Voir plus [ici](./doc/index.html).
 ***
 ## Mise en place
 Afin que tout fonctionne correctement il faudra lier votre dépôt github correspondant à votre pc à l'aide d'une clé ssh. Pour se faire, suivre les étapes énnoncées dans la partie Set up 'git push' with an ssh key.
