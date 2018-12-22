@@ -1,3 +1,4 @@
+package web_inria.api;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,7 +21,11 @@ import java.util.stream.Collectors;
 public class Categories {
 
 	public static BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-	public static File file = new File(Main.localRepo + File.separator + "category" + File.separator + "categories.txt");
+	public static File file = new File(PropertiesAccess.getInstance().getLocalRepository() 
+										+ File.separator 
+										+ "category" 
+										+ File.separator 
+										+ "categories.txt");
 
 	/**
 	 * Method that add a category to the category.txt file

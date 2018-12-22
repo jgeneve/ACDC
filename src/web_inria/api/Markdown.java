@@ -1,7 +1,10 @@
+package web_inria.api;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
 
 /**
  * Class Markdown that contains the methods relatives to the markdown
@@ -81,12 +84,17 @@ public class Markdown {
 	 * @return file : File - file that contains the markdown
 	 */
 	public static File createMarkdownFile(String markdownString, Post post) {	
-		String filename = post.getDate()+ "-" + post.getTitle().replaceAll(" ", "-") + ".markdown"; 
-		File file = new File(Main.localRepo + File.separator + "_posts" + File.separator + filename);
+		String filename = post.getDate()+ "-" + post.getTitle().replaceAll(" ", "-") + ".markdown";
+		
+		String localRepo = PropertiesAccess.getInstance().getLocalRepository();
+		
+		File file = new File(localRepo + File.separator + "_posts" + File.separator + filename);
 		try {
 			file.createNewFile();
-			Writer writer = Files.newBufferedWriter(file.toPath(), StandardCharsets.UTF_8);
-			writer.write(markdownString);
+			Writer writer = new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8);
+			BufferedWriter fout = new BufferedWriter(writer);
+			fout.write(markdownString);
+			fout.close();
 			writer.close();
 			return file;
 		} catch (Exception e) {

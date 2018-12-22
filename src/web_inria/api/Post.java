@@ -1,3 +1,4 @@
+package web_inria.api;
 import java.util.List;
 
 /** Post object to store the post data

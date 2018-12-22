@@ -1,7 +1,16 @@
+package web_inria.ihm;
+
+
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+import web_inria.api.Categories;
+import web_inria.api.Markdown;
+import web_inria.api.Post;
+import web_inria.api.PropertiesAccess;
+import web_inria.api.Tools;
 
 /**
  * Class of the program
@@ -10,16 +19,14 @@ import java.util.List;
  * @since 1.0
  * 
  */
+
 public class Main {
 
-	public static String localRepo;
-	public static String gitRepo;
-
-
 	public static void main(String[] args) {
-		localRepo = "C:\\Users\\jgeneve\\Documents\\IMTA1\\web-master\\BLOG";
-		gitRepo = "https://github.com/jgeneve/web_inria.git";
-
+		
+		String localRepo = PropertiesAccess.getInstance().getLocalRepository();
+		String gitRepo = PropertiesAccess.getInstance().getGitRepo();
+		
 		Post post = askPostInformationCmd();
 
 		Categories.addCategory(post.getCategory());
