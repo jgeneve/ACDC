@@ -99,6 +99,8 @@ public class PropertiesAccess {
 	      FileOutputStream output = new FileOutputStream(propsFileName);
 	      props.store(output, null);
 	      output.close();
+	      
+	      result = getPropValues();
 
 	    } catch (IOException ex) {
 	      ex.printStackTrace();
