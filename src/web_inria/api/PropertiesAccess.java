@@ -85,7 +85,7 @@ public class PropertiesAccess {
 	private void changePropertyValue(String key, String value) {
 		Properties props = new Properties();
 
-	    String propsFileName = "./ressources/config.properties";
+	    String propsFileName = "./resources/config.properties";
 	    try {
 	      //first load old one:
 	      FileInputStream configStream = new FileInputStream(propsFileName);
